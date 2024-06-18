@@ -74,7 +74,17 @@ public class Mensaje
      */
     public void agregarLinea(int pos, String linea)
     {
-        // TODO: Implementar este método
+         if (pos < 0)
+            throw new IllegalArgumentException("La pocision no es valida");
+        if (pos  > cantLineas())
+            throw new IllegalArgumentException("La pocision no es valida");
+        if (linea == null)
+            throw new IllegalArgumentException("La linea a agregar no debe ser null.");
+        if (linea.length() > LONG_MAX_LINEA)
+            throw new IllegalArgumentException("Longitud invalida. La linea no debe tener más de 80 caracteres.");
+        if (!esAscii(linea)) 
+            throw new IllegalArgumentException("La linea a agregar contiene caracteres no ascii.");
+        lineas.add(pos,linea);
     }
     
     /**
@@ -133,9 +143,19 @@ public class Mensaje
      */
     public boolean equals(Mensaje otro)
     {
-        // TODO: Implementar este método sustituyendo la línea debajo, con el 
-        // código de la implementación
-        return false;
+         if (otro == null)
+            throw new IllegalArgumentException("Mensaje a comparar no valido");
+        if (this.cantLineas() != otro.cantLineas()){
+            return false;
+        }
+        int i = 0;
+        while (i < cantLineas()){
+            if (!this.obtenerLinea(i).equals(otro.obtenerLinea(i))){
+              return false;
+            }
+        i++;
+        }
+        return true;
     }
     
     /**
